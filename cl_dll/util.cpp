@@ -30,6 +30,8 @@
 #define M_PI		3.14159265358979323846	// matches value in gcc v2 math.h
 #endif
 
+extern cvar_t *hud_size;
+
 vec3_t vec3_origin( 0, 0, 0 );
 
 double sqrt(double x);
@@ -121,13 +123,13 @@ HSPRITE LoadSprite(const char *pszName)
 	int iRes;
 	char sz[256]; 
 
-	if (ScreenWidth > 2560 && ScreenHeight > 1600)
+	if ((ScreenWidth > 2560 && ScreenHeight > 1600) || hud_size->value == 4)
 		iRes = 2560;
-	else if (ScreenWidth >= 1280 && ScreenHeight > 720)
+	else if ((ScreenWidth >= 1280 && ScreenHeight > 720) || hud_size->value == 3)
 		iRes = 1280;
-	else if (ScreenWidth >= 640)
+	else if ((ScreenWidth >= 640) || hud_size->value == 2)
 		iRes = 640;
-	else
+	else if ((ScreenWidth >= 320) || hud_size->value == 1)
 		iRes = 320;
 
 

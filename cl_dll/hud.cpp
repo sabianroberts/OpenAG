@@ -92,6 +92,7 @@ cvar_t *cl_viewrollangle;
 cvar_t *cl_viewrollspeed;
 cvar_t *cl_bob_angled;
 cvar_t *hud_watermark;
+cvar_t *hud_size;
 
 void ShutdownInput (void);
 
@@ -501,6 +502,7 @@ void CHud :: Init( void )
 	cl_viewrollspeed = CVAR_CREATE ( "cl_viewrollspeed", "300", FCVAR_CLIENTDLL | FCVAR_ARCHIVE );
 	cl_bob_angled = CVAR_CREATE ( "cl_bob_angled", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE );
 
+	hud_size = CVAR_CREATE("hud_size", "0",FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 	hud_watermark = CVAR_CREATE ( "hud_watermark", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE );
 
 	HOOK_MESSAGE( CheatCheck );
@@ -653,13 +655,13 @@ void CHud :: VidInit( void )
 	m_hsprLogo = 0;	
 	m_hsprCursor = 0;
 
-	if (ScreenWidth > 2560 && ScreenHeight > 1600)
+	if ((ScreenWidth > 2560 && ScreenHeight > 1600) || hud_size->value == 4)
 		m_iRes = 2560;
-	else if (ScreenWidth >= 1280 && ScreenHeight > 720)
+	else if ((ScreenWidth >= 1280 && ScreenHeight) > 720 || hud_size->value == 3)
 		m_iRes = 1280;
-	else if (ScreenWidth >= 640)
+	else if ((ScreenWidth >= 640) || hud_size->value == 2)
 		m_iRes = 640;
-	else
+	else if ((ScreenWidth >= 320) || hud_size->value == 1)
 		m_iRes = 320;
 
 	// Only load this once

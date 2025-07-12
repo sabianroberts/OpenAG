@@ -39,6 +39,8 @@ WeaponsResource gWR;
 
 int g_weaponselect = 0;
 
+extern cvar_t *hud_size;
+
 void WeaponsResource :: LoadAllWeaponSprites( void )
 {
 	for (int i = 0; i < MAX_WEAPONS; i++)
@@ -73,14 +75,13 @@ int WeaponsResource :: HasAmmo( WEAPON *p )
 void WeaponsResource :: LoadWeaponSprites( WEAPON *pWeapon )
 {
 	int i, iRes;
-
-	if (ScreenWidth > 2560 && ScreenHeight > 1600)
+	if ((ScreenWidth > 2560 && ScreenHeight > 1600) || hud_size->value == 4)
 		iRes = 2560;
-	else if (ScreenWidth >= 1280 && ScreenHeight > 720)
+	else if ((ScreenWidth >= 1280 && ScreenHeight > 720) || hud_size->value == 3)
 		iRes = 1280;
-	else if (ScreenWidth >= 640)
+	else if ((ScreenWidth >= 640) || hud_size->value == 2)
 		iRes = 640;
-	else
+	else if ((ScreenWidth>= 320) || hud_size->value == 1)
 		iRes = 320;
 
 	char sz[256];
@@ -332,12 +333,15 @@ int CHudAmmo::VidInit(void)
 	gWR.LoadAllWeaponSprites();
 
 	int nScale = 1;
-	if (ScreenWidth > 2560 && ScreenHeight > 1600)
+	if ((ScreenWidth > 2560 && ScreenHeight > 1600) || hud_size->value == 4)
 		nScale = 4;
-	else if (ScreenWidth >= 1280 && ScreenHeight > 720)
+	else if ((ScreenWidth >= 1280 && ScreenHeight) > 720 || hud_size->value == 3)
 		nScale = 3;
-	else if (ScreenWidth >= 640)
+	else if ((ScreenWidth >= 640) || hud_size->value == 2)
 		nScale = 2;
+	else if ((ScreenWidth >= 320) || hud_size->value == 1)
+		nScale = 1;
+
 	giABWidth = 10 * nScale;
 	giABHeight = 2 * nScale;
 
